@@ -45,35 +45,7 @@ Run tests:
 
 ## Architecture
 
-The main code is organized into free functions, mostly placed in grep_utils.cpp. The multithreaded operation is managed by a ThreadManager class that synchronizes interactions between threads. Below is an overview of the architecture and workflow.
-
-                  +--------------------+
-                  |    find_files()     |
-                  | (File Discovery)    |
-                  +--------------------+
-                            |
-                            v
-               +--------------------------+
-               |      fileQueue (Mutex)    |
-               +--------------------------+
-                            |
-                            v
-+--------------------+      +--------------------+      
-| Thread 1           |      | Thread 2           |
-| search_in_file()   | ---  | search_in_file()   |
-+--------------------+      +--------------------+      
-                            |
-                            v
-               +--------------------------+
-               |    resultQueue (Mutex)    |
-               +--------------------------+
-                            |
-                            v
-                  +--------------------+
-                  |  Output Thread      |
-                  | (Prints Results)    |
-                  +--------------------+
-
+The main code is organized into free functions, mostly placed in grep_utils.cpp. The multithreaded operation is managed by a ThreadManager class that synchronizes interactions between threads. 
                   
 
 ## Workflow Overview
