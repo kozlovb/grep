@@ -58,10 +58,10 @@ The main code is organized into free functions, mostly placed in grep_utils.cpp.
                +--------------------------+
                             |
                             v
-+--------------------+      +--------------------+      +--------------------+
-| Thread 1           |      | Thread 2           |      | Thread N           |
-| search_in_file()   | ---  | search_in_file()   | ---  | search_in_file()   |
-+--------------------+      +--------------------+      +--------------------+
++--------------------+      +--------------------+      
+| Thread 1           |      | Thread 2           |
+| search_in_file()   | ---  | search_in_file()   |
++--------------------+      +--------------------+      
                             |
                             v
                +--------------------------+
@@ -73,6 +73,8 @@ The main code is organized into free functions, mostly placed in grep_utils.cpp.
                   |  Output Thread      |
                   | (Prints Results)    |
                   +--------------------+
+
+                  
 
 ## Workflow Overview
 
