@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(GrepProject)
 
-# GoogleTest requires at least C++14
-set(CMAKE_CXX_STANDARD 17)  # Use C++17 for filesystem
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Include FetchContent module
@@ -13,9 +12,6 @@ FetchContent_Declare(
     googletest
     URL https://github.com/google/googletest/archive/b514bdc.zip   # Replace with the desired commit hash
 )
-
-# Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 # Make GoogleTest available
 FetchContent_MakeAvailable(googletest)
@@ -49,10 +45,17 @@ include_directories(
 )
 
 # Add tests
-enable_testing()
 add_executable(GrepTests ${TEST_SOURCES})
 target_link_libraries(GrepTests gtest gmock gtest_main pthread)
 
 # Output executables to 'bin' directory
-set_target_properties(GrepApp PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-set_target_properties(GrepTests PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set_target_properties(GrepApp PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin)
+set_target_properties(GrepTests PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin)
+
+# Copy test assets folder to the 'bin' directory after build
+add_custom_command(
+    TARGET GrepTests POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/test_assets
+    ${CMAKE_SOURCE_DIR}/build/bin/test_assets
+)
